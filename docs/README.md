@@ -4,45 +4,40 @@
 
 ## Features
 
-### Online Installation and Auto-loading on demand
+### On-demand installation and auto-loading
 
-You can install and use user-made extensions from the web. Once you make a project with extended blocks, the project can be opened on Xcratch without installing required extensions by user.
+You can install and use user-made extensions from the web. When you open a project that uses extended blocks, Xcratch automatically installs the required extensions. Extensions are organized with tags so you can filter and search for what you need.
 
-### Built-in Web Bluetooth API
+### Preloaded extensions
 
-You don't need to run [Scratch Link](https://scratch.mit.edu/microbit) to play with micro:bit or BLE devices when your browser is Chrome, Edge or 'Web Bluetooth API' supporting one (the browser in Chromebook, [Scrub](https://apps.apple.com/jp/app/scrub-web-browser/id1569777095) in iPad, like that).
+The Xcratch editor ships with several handy extensions preloaded, so you can use them even when you are offline.
 
-### Can be Used Offline
+### Web Bluetooth API support
 
-The Xcratch editor is a PWA (Progressive Web Apps), which means that once you access it, you can use it without any further Internet communication. You can also install it on your local machine if necessary.
+You don't need to run [Scratch Link](https://scratch.mit.edu/microbit) to play with micro:bit or other BLE devices when your browser supports the Web Bluetooth API (Chrome, Edge, Chromebook browser, [Scrub](https://apps.apple.com/jp/app/scrub-web-browser/id1569777095) on iPad, and similar).
 
-### Open Project from URL
+### Available offline
 
-Xcratch can directly open projects that are published on the Internet.
-There is two way to open project directly.
+The Xcratch editor is a PWA (Progressive Web Apps). Once you load it, you can keep using it without further Internet access. Some extensions may still require connectivity. You can also install the editor on your local machine if needed.
 
-open editor with `#`
+## Local Backpack
 
-`https://xcratch.github.io/editor/#<project-URL>`
+Xcratch includes a backpack feature so you can store sprites, costumes, sounds, and code blocks for easy reuse across projects. The backpack uses your browser's local storage, so the contents remain available even when you are offline.
 
-or add a query parameter labeled `project`
+### Open project from URL
 
-`https://xcratch.github.io/editor/?project=<project-URL>`
+Xcratch can open projects that are published on the Internet directly. There are two ways to do it:
 
+- Open the editor with `#`: https://xcratch.github.io/editor/#<project-URL>
+- Add a `project` query parameter: https://xcratch.github.io/editor/?project=<project-URL>
 
 ### UI improvements from Scratch Foundation version
 
 - Numbers entered with double-byte characters can be used as numerical values.
-- New line (\n) and tab (\t) characters can be used for "say", "think", and "=" decision.
-- You can see the hidden part on the right side of the block palette.
+- Japanese arithmetic operators use clearer symbols (×, ÷, ＋, −).
+- New line (\n) and tab (\t) characters can be used for "say", "think", and "=" decisions.
+- Code clean-up improves horizontal alignment and animations.
+- Comment position bugs that caused comments to move have been fixed.
+- You can see the hidden area on the right edge of the block palette.
 - Backpack can be used on your own server.
-- Open the original project from the player in a separate page.
-
-
-## Sample Extensions
-
-### ✨ Microbit More 
-
-[Microbit More](https://microbit-more.github.io/index-ja.html) is an application based on Xcratch. This is a Xcratch editor which has "Microbit More" extension as default.
-
-- [Microbit More connection test](https://microbit-more.github.io/editor/#https://microbit-more.github.io/examples/basic/connection.sb3) 
+- When embedded in HTML, the editor can be opened and full-screen mode is supported.
