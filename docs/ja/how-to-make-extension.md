@@ -1,155 +1,234 @@
-# How to Make Extension
+# Xcratch 拡張機能の作り方
+
+Xcratch の拡張機能を、エディタ本体の開発フローに沿って作成・デバッグする手順です。
 
 ## 開発環境のセットアップ
-### Xcratch開発サーバーのセットアップ
 
-拡張機能を開発するためには、あらかじめ [xcratch/scratch-vm#xcratch](https://github.com/xcratch/scratch-vm/tree/xcratch) と [xcratch/scratch-gui#xcratch](https://github.com/xcratch/scratch-gui/tree/xcratch) を拡張機能のコードと同じディレクトリにクローンする必要があります。
-開発時には以下のようなディレクトリ構成を想定しています。
+### ディレクトリ構成とクローン
+
+Xcratch は monorepo 構成を採用しています。拡張機能のリポジトリと同じ階層に [xcratch/scratch-editor](https://github.com/xcratch/scratch-editor) を配置します。
 
 ```
 .
-├── scratch-vm
-├── scratch-gui
-└── xcx-my-extension
+├── scratch-editor/          # monorepo ルート
+│   └── packages/
+│       ├── scratch-gui/     # フロントエンド UI
+│       ├── scratch-vm/      # 仮想マシン
+│       ├── scratch-render/  # レンダリングエンジン
+│       └── ...
+└── xcx-my-extension/        # あなたの拡張機能
 ```
 
-次のコマンドで、scratch-vmとscratch-guiをクローンして、開発に必要なパッケージをインストールします。
-最後のコマンドで、xcratch/scratch-gui自体の開発環境をセットアップしています。
+scratch-editor リポジトリをクローンし、依存パッケージをインストールします。
 
 ```sh
-git clone -b xcratch https://github.com/xcratch/scratch-vm.git
-cd ./scratch-vm
+git clone https://github.com/xcratch/scratch-editor.git
+cd scratch-editor
 npm install
-cd ../
-git clone -b xcratch https://github.com/xcratch/scratch-gui.git
-cd ./scratch-gui
-npm install
-npm run setup-dev
 ```
 
-### 足場のコードの生成
+### HTTPS 証明書の準備
 
-Xcratchの拡張機能を新しく作成するには、[xcratch-create](https://www.npmjs.com/package/xcratch-create) を使って足場になるコードを生成します。
-xcratch-create は、テンプレートコードをダウンロードして、プロパティを引数に置き換えるNodeの実行可能スクリプトです。ローカルに作成されたファイルは、新しい拡張機能のベースとして使用することができます。
+開発サーバーは HTTPS で起動するため、ローカルマシン用の証明書が必要です。[mkcert](https://github.com/FiloSottile/mkcert) を使って準備します。
 
 ```sh
+# mkcert のインストール（macOS の場合）
+brew install mkcert
+mkcert -install
+
+# 証明書の生成
+cd scratch-editor
+mkdir -p .vscode
+mkcert -key-file .vscode/localhost-key.pem -cert-file .vscode/localhost.pem localhost 127.0.0.1 ::1
+```
+
+証明書のパスは [packages/scratch-gui/webpack.config.js](https://github.com/xcratch/scratch-editor/blob/xcratch/packages/scratch-gui/webpack.config.js) で設定されています。
+
+### 拡張機能のスキャフォールディング
+
+scratch-editor と同じ階層に移動し、[xcratch-create](https://www.npmjs.com/package/xcratch-create) で拡張機能の雛形を生成します。
+
+```sh
+cd ..  # scratch-editor の親ディレクトリへ
 npx xcratch-create --repo=xcx-my-extension --account=githubAccount --extensionID=myExtension --extensionName='My Extension'
 ```
 
-`xcratch-create` は以下のコマンドライン引数を受け付けます。
+主な引数:
+- --repo: GitHub リポジトリ名
+- --account: GitHub アカウント
+- --extensionID: Xcratch 内での拡張機能 ID
+- --extensionName: 拡張機能名
 
-- --repo : GitHub上のリポジトリの名前
-- --account : GitHub上のアカウント
-- --extensionID : Xcratchでの拡張機能のID
-- --extensionName : Xcratchでの拡張機能の名前
-
-
-### ローカルリポジトリのセットアップ
-
-このコードは[GitHub](https://github.com/)で公開する想定になっています。
+### リポジトリ初期化
 
 ```sh
 cd xcx-my-extension
 git init -b main
-```
-
-GitHubで[新規リポジトリの作成](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/creating-a-new-repository)を行い、ローカルリポジトリのリモートとしてそのレポジトリーを追加します。
-
-```sh
 git remote add origin <REPO_URL>
-```
-
-Then commit and push all files like this.
-
-```sh
 git add .
 git commit -m "Scaffold code"
 git push -u origin main
 ```
 
-次にNode.jsの依存パッケージをインストールします。
+依存パッケージを入れます。xcratch-create が生成したテンプレートでは、scratch-vm への参照は monorepo 内のパッケージを使用するように設定されています。
 
 ```sh
 npm install
 ```
 
-次のコマンドで、開発に必要な scratch-vm のフォルダへの参照リンクを作成します。
+### scratch-vm への参照設定
+
+拡張機能の開発中に BlockType, Cast などの scratch-vm のソースコードを参照できるように、シンボリックリンクを作成します。
 
 ```sh
 npm run setup-dev
 ```
 
-### モジュールファイルのビルド
+## ビルドとウォッチ
 
-拡張機能を利用なモジュールファイルにビルドするには、[rollup.js](https://rollupjs.org/guide/en/) を使います。
-次のコマンドで、rollup.jsによって必要なソースコードを一つにまとめたモジュールファイルがつくられます。
+rollup.js ベースのスクリプトでモジュールを生成します。
 
 ```sh
-npm run build
+npm run build   # dist/extensionID.mjs を作成
+npm run watch   # 変更を監視して自動ビルド
 ```
 
-ビルドされたモジュールは、`dist/extensionID.mjs` に保存されます。
+## モジュールを読み込んでデバッグ
 
-ソースコードの変更に応じてビルドを自動的に行うには、`npm run watch` を実行します。
+### VSCode デバッグ機能を使う（推奨）
+
+scratch-editor の VSCode デバッグ設定を使うと、拡張機能のソースコードに直接ブレークポイントを設定してデバッグできます。
+
+#### 1. ワークスペースの設定
+
+VSCode で scratch-editor と拡張機能の両方をワークスペースに追加します。
+
+```
+File > Add Folder to Workspace... > (scratch-editor と拡張機能のフォルダを追加)
+```
+
+#### 2. launch.json の確認
+
+scratch-editor の [.vscode/launch.json](https://github.com/xcratch/scratch-editor/blob/xcratch/.vscode/launch.json) には、拡張機能のソースマップを解決するための設定が含まれています。
+
+```json
+{
+  "webRoot": "${workspaceFolder}/..",
+  "sourceMapPathOverrides": {
+    "webpack://GUI/*": "${webRoot}/scratch-editor/packages/scratch-gui/*",
+    "webpack://GUI/scratch-vm/*": "${webRoot}/scratch-editor/packages/scratch-vm/*",
+    "https://0.0.0.0:5500/*": "${webRoot}/*"
+  }
+}
+```
+
+`https://0.0.0.0:5500/*` の部分は、拡張機能をローカルサーバーで配信する場合のソースマップ解決用です。
+
+#### 3. 拡張機能のビルドとウォッチ
+
+拡張機能のディレクトリで watch モードを起動します。
 
 ```sh
+cd xcx-my-extension
 npm run watch
 ```
 
-### モジュールファイルをWebサーバーで取得
+#### 4. ローカル HTTPS サーバーの起動
 
-ビルドされたモジュールをデバッグするためには、Webサーバー経由でモジュールを取得する必要があります。
+Live Server で、拡張機能ディレクトリを HTTPS 配信します。
 
-例えば、ローカルリポジトリに[Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)をセットアップし、Xcratchエディタで以下のようにモジュールをロードします。(URLのポート番号やパスは、Live Serverの設定によって異なります)
+Live Server の設定例
 
-1. Xcratch Editor を開きます。
-2. 「拡張機能を追加」ボタンをクリックします。
-3. 「拡張機能を読み込む」エクステンションを選択します。
-4. 入力フィールドに以下のモジュールのURLを入力し、「OK」ボタンを押します。
+scratch-editor の launch.json にあわせて、`https://localhost:5500/` で配信するように設定します。
+
+.vscode/settings.json :
+
+```json
+{
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.host": "0.0.0.0",
+  "liveServer.settings.https": {
+    "enable": true,
+    "cert": "/path/to/localhost.pem",
+    "key": "/path/to/localhost-key.pem"
+  },
+  "liveServer.settings.CustomBrowser": "chrome",
+}
+```
+
+ワークスペースの親ディレクトリをルートにして拡張機能のモジュールをアクセスできるようにします。
+
+xcx-my-extension.code-workspace :
+
+```json
+{
+	"folders": [
+		{
+			"path": "xcx-my-extension"
+		},
+		{
+			"path": "scratch-editor"
+		}
+	],
+	"settings": {
+		"liveServer.settings.root": "../",
+		"liveServer.settings.multiRootWorkspaceName": "xcx-my-extension"
+	}
+}
+```
+
+#### 5. デバッグの開始
+
+1. VSCode で scratch-editor を開く
+2. F5 キーを押して「debug on dev-server」を起動
+3. Chrome が自動的に開き、`https://localhost:8601` にアクセス
+4. Xcratch Editor で「拡張機能を読み込む」から拡張機能を読み込み
+   ```
+   https://localhost:5500/dist/myExtension.mjs
+   ```
+5. 拡張機能のソースファイルにブレークポイントを設定
+6. ブロックを実行してデバッグ
+
+### ローカル Web サーバー経由で読み込み（シンプルな方法）
+
+VSCode デバッグを使わない場合は、Live Server などで拡張機能を HTTPS 配信し、公開されている Xcratch Editor (https://xcratch.github.io/editor/) から読み込むこともできます。
+
+Xcratch Editor の「拡張機能を読み込む」から、次の URL を指定します。
 
 ```
 https://localhost:5500/dist/extensionID.mjs
 ```
 
-### Xcratch開発サーバーによるデバッグ
+拡張機能のサーバーは `https://xcratch.github.io/` からの CORS を許可している必要があります。
 
-xcratch/scratch-guiの開発環境をセットアップすると、`npm run start` で開発用サーバーを起動できます。
-httpsサーバーが必要な場合は、`--https` オプションを付けて起動します。このためには、 [mkcert](https://github.com/FiloSottile/mkcert) などでローカルに証明書を用意する必要があります。
+## 配布
 
-```sh
-npm run start -- --https
+### GitHub Pages での配布
+
+Pages の配信元を `main` ブランチの `/(root)` に設定すると、モジュールは次のように公開されます。
+
+```
+https://<account>.github.io/<repository>/dist/<extensionID>.mjs
 ```
 
-[Visual Studio Code](https://code.visualstudio.com/) を使うと、```scratch-gui/.vscodde/launch.json``` の "debug on dev-server" を使って、開発用サーバーをデバッグすることができます。
-この開発用サーバーで拡張機能のモジュールを読み込むと、Visual Studio Code のデバッグ機能により、拡張機能のソースコードにブレークポイントを設定してデバッグすることができます。
+別サーバーで配信する場合も、`https://xcratch.github.io/` からの CORS を許可してください。
 
-----
+## サンプルプロジェクトと埋め込み
 
-## 拡張機能の配布
-
-### GitHub Pages への配置
-
-拡張モジュールファイルのデプロイには、[GitHub Pages](https://pages.github.com/) を利用することができます。
-
-GitHub Pageでモジュールを公開するには、[GitHub Docs](https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#choosing-a-publishing-source) にしたがって、リポジトリの設定でPagesの「Source」を設定します。
-
-"`main`" ブランチでPagesの "Source"を"`/(root)`"に設定した場合、拡張モジュールは `https://<account>.github.io/<repository>/dist/<extensionID>.mjs` で公開されます。
-
-拡張モジュールを別のサーバで公開したい場合は、そのサーバが `https://xcratch.github.io/` から [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) を受け入れているかどうかを確認してください。サーバーでCORSが有効になっていない場合、Xcratchはモジュールをインポートできません。
-
-
-### 例を示す
-
-Xcratchは、URLからプロジェクトを開き、extension-URLを入力することなく、プロジェクトで使用されているすべての拡張機能を自動的にロードすることができます。
-
-新しくつくった拡張機能の少なくとも1つのブロックを使用してサンプルプロジェクトを作成し、`projects/example.sb3` として保存すれば、このプロジェクトは、Xcratchで以下のようなURLで開くことができます。
+拡張機能のブロックを使ったプロジェクトを `projects/example.sb3` として用意すると、次の URL で自動的に拡張機能を読み込んで開けます。
 
 ```
 https://xcratch.github.io/editor/#https://<account>.github.io/<repository>/projects/example.sb3
-``` 
+```
 
-次のようなHTMLで、動くプロジェクトをWebページに埋め込むこともできます。
+プレイヤーだけを埋め込む場合:
 
 ```html
 <iframe src="https://xcratch.github.io/editor/player#https://<account>.github.io/<repository>/projects/example.sb3" width="600px" height="500px"></iframe>
+```
+
+カメラやマイクを使う拡張機能の場合、iframe 埋め込みで allow オプションを指定する必要があります。
+
+```html
+<iframe src="https://xcratch.github.io/editor/player#https://<account>.github.io/<repository>/projects/example.sb3" width="600px" height="500px" allow="camera; microphone;"></iframe>
 ```
