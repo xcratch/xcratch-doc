@@ -39,7 +39,7 @@ mkcert -install
 # Generate certificates
 cd scratch-editor
 mkdir -p .vscode
-mkcert -key-file .vscode/localhost-key.pem -cert-file .vscode/localhost.pem localhost 127.0.0.1 ::1
+mkcert -key-file .vscode/localhost-key.pem -cert-file .vscode/localhost.pem localhost 127.0.0.1 0.0.0.0 ::1
 ```
 
 The certificate paths are configured in [packages/scratch-gui/webpack.config.js](https://github.com/xcratch/scratch-editor/blob/xcratch/packages/scratch-gui/webpack.config.js).
@@ -139,7 +139,7 @@ Use Live Server to serve your extension directory over HTTPS.
 
 Live Server Configuration Example
 
-Configure to serve at `https://localhost:5500/` to match scratch-editor's launch.json.
+Configure to serve at `https://0.0.0.0:5500/` to match scratch-editor's launch.json.
 
 .vscode/settings.json:
 
@@ -181,10 +181,10 @@ xcx-my-extension.code-workspace:
 
 1. Open scratch-editor in VSCode
 2. Press F5 to launch "debug on dev-server"
-3. Chrome will automatically open and navigate to `https://localhost:8601`
+3. Chrome will automatically open and navigate to `https://0.0.0.0:8601`
 4. In Xcratch Editor, load your extension from "Load Extension"
    ```
-   https://localhost:5500/dist/myExtension.mjs
+   https://0.0.0.0:5500/<repo>/dist/<extensionID>.mjs
    ```
 5. Set breakpoints in your extension's source files
 6. Execute blocks to debug
@@ -196,7 +196,7 @@ If not using VSCode debugging, you can serve your extension over HTTPS using Liv
 From "Load Extension" in Xcratch Editor, specify the following URL:
 
 ```
-https://localhost:5500/dist/extensionID.mjs
+https://0.0.0.0:5500/<repo>/dist/<extensionID>.mjs
 ```
 
 Your extension server must allow CORS from `https://xcratch.github.io/`.

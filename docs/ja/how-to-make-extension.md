@@ -39,7 +39,7 @@ mkcert -install
 # 証明書の生成
 cd scratch-editor
 mkdir -p .vscode
-mkcert -key-file .vscode/localhost-key.pem -cert-file .vscode/localhost.pem localhost 127.0.0.1 ::1
+mkcert -key-file .vscode/localhost-key.pem -cert-file .vscode/localhost.pem localhost 127.0.0.1 0.0.0.0 ::1
 ```
 
 証明書のパスは [packages/scratch-gui/webpack.config.js](https://github.com/xcratch/scratch-editor/blob/xcratch/packages/scratch-gui/webpack.config.js) で設定されています。
@@ -139,7 +139,7 @@ Live Server で、拡張機能ディレクトリを HTTPS 配信します。
 
 Live Server の設定例
 
-scratch-editor の launch.json にあわせて、`https://localhost:5500/` で配信するように設定します。
+scratch-editor の launch.json にあわせて、`https://0.0.0.0:5500/` で配信するように設定します。
 
 .vscode/settings.json :
 
@@ -181,10 +181,10 @@ xcx-my-extension.code-workspace :
 
 1. VSCode で scratch-editor を開く
 2. F5 キーを押して「debug on dev-server」を起動
-3. Chrome が自動的に開き、`https://localhost:8601` にアクセス
+3. Chrome が自動的に開き、`https://0.0.0.0:8601` にアクセス
 4. Xcratch Editor で「拡張機能を読み込む」から拡張機能を読み込み
    ```
-   https://localhost:5500/dist/myExtension.mjs
+   https://0.0.0.0:5500/<repo>/dist/<extensionID>.mjs
    ```
 5. 拡張機能のソースファイルにブレークポイントを設定
 6. ブロックを実行してデバッグ
@@ -196,7 +196,7 @@ VSCode デバッグを使わない場合は、Live Server などで拡張機能�
 Xcratch Editor の「拡張機能を読み込む」から、次の URL を指定します。
 
 ```
-https://localhost:5500/dist/extensionID.mjs
+https://0.0.0.0:5500/<repo>/dist/<extensionID>.mjs
 ```
 
 拡張機能のサーバーは `https://xcratch.github.io/` からの CORS を許可している必要があります。
