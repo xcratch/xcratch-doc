@@ -31,6 +31,10 @@ Xcratch can open projects that are published on the Internet directly. There are
 - Open the editor with `#`: https://xcratch.github.io/editor/#<project-URL>
 - Add a `project` query parameter: https://xcratch.github.io/editor/?project=<project-URL>
 
+### Export blocks as images
+
+Right-click in the blocks area to export selected blocks or all blocks as SVG or PNG images. This makes it easy to capture and share screenshots of the blocks you've created.
+
 ### UI improvements from Scratch Foundation version
 
 - Numbers entered with double-byte characters can be used as numerical values.

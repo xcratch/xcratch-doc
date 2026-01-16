@@ -43,6 +43,10 @@ https://xcratch.github.io/editor/#<プロジェクトURL>`。
 
 https://xcratch.github.io/editor/?project=<プロジェクトURL>`。
 
+### ブロックを画像にエクスポート
+
+ブロックエリアで右クリックすると、選択したブロックやすべてのブロックを SVG または PNG 形式の画像としてエクスポートできます。作成したブロックのスクリーンショットを簡単に保存して共有できます。
+
 ### Scratch Foundation版からのUIの改善
 
 - 全角文字で入力した数字を数値として利用できる
