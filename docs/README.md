@@ -8,9 +8,9 @@
 
 You can install and use user-made extensions from the web. When you open a project that uses extended blocks, Xcratch automatically installs the required extensions. Extensions are organized with tags so you can filter and search for what you need.
 
-### TurboWarp extension support
+### Preloaded extensions
 
-Xcratch supports [TurboWarp](https://turbowarp.org/) extensions. You can load and use extensions built for TurboWarp in Xcratch.
+The Xcratch editor ships with several handy extensions preloaded, so you can use them even when you are offline.
 
 ### Load extensions via URL
 
@@ -20,9 +20,16 @@ https://xcratch.github.io/editor/?extension=<extension-URL>
 
 Multiple extensions can be loaded at once by repeating the parameter.
 
-### Preloaded extensions
+### TurboWarp extension support
 
-The Xcratch editor ships with several handy extensions preloaded, so you can use them even when you are offline.
+Xcratch supports [TurboWarp](https://turbowarp.org/) extensions. You can load and use extensions built for TurboWarp in Xcratch.
+
+### Open project from URL
+
+Xcratch can open projects that are published on the Internet directly. There are two ways to do it:
+
+- Open the editor with `#`: https://xcratch.github.io/editor/#<project-URL>
+- Add a `project` query parameter: https://xcratch.github.io/editor/?project=<project-URL>
 
 ### Web Bluetooth API support
 
@@ -35,13 +42,6 @@ The Xcratch editor is a PWA (Progressive Web Apps). Once you load it, you can ke
 ## Local Backpack
 
 Xcratch includes a backpack feature so you can store sprites, costumes, sounds, and code blocks for easy reuse across projects. The backpack uses your browser's local storage, so the contents remain available even when you are offline.
-
-### Open project from URL
-
-Xcratch can open projects that are published on the Internet directly. There are two ways to do it:
-
-- Open the editor with `#`: https://xcratch.github.io/editor/#<project-URL>
-- Add a `project` query parameter: https://xcratch.github.io/editor/?project=<project-URL>
 
 ### Export blocks as images
 

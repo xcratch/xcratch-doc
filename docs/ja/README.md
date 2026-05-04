@@ -9,9 +9,9 @@ Xcratch (エクスクラッチ)とは、[MITのスクラッチ3](https://scratch
 
 拡張機能は以下のようなタグで分類され、目的に応じて必要な拡張機能を選んだり検索したりして利用できます。
 
-### TurboWarp 拡張機能のサポート
+### 先読み済みの拡張機能
 
-Xcratch は [TurboWarp](https://turbowarp.org/) の拡張機能に対応しています。TurboWarp 向けに作られた拡張機能を Xcratch で読み込んで利用できます。
+Xcratch エディターには、あらかじめいくつかの便利な拡張機能が先読み (プリロード) されています。これにより、インターネットに接続していない状態でも、これらの拡張機能を利用できます。
 
 ### URL で拡張機能をあらかじめ読み込む
 
@@ -21,26 +21,9 @@ https://xcratch.github.io/editor/?extension=<拡張機能URL>
 
 パラメータを繰り返すことで、複数の拡張機能を同時に読み込むこともできます。
 
-### 先読み済みの拡張機能
+### TurboWarp 拡張機能のサポート
 
-Xcratch エディターには、あらかじめいくつかの便利な拡張機能が先読み (プリロード) されています。これにより、インターネットに接続していない状態でも、これらの拡張機能を利用できます。
-
-### Web Bluetooth API 対応
-
-'Web Bluetooth API' に対応したブラウザ (Chrome や Edge 、 iPad では [Scrub](https://apps.apple.com/jp/app/scrub-web-browser/id1569777095) など) で開くと、micro:bit や他の BLE 接続のデバイスを [Scratch Link](https://scratch.mit.edu/microbit) 無しで遊ぶことができます。
-
-### オフラインで利用可能
-
-Xcratch エディターは PWA (Progressive Web Apps) になっているので、一度開けばそれ以降はインターネット通信ができない状態でも利用できます。
-(拡張機能によってはインターネットの接続が必要な場合があります)
-
-PWAなので、必要に応じてローカルマシンにインストールすることもできます。
-
-## ローカル　バックパック
-
-Xcratch にはバックパック機能が搭載されており、スプライトやコスチューム、サウンド、コードブロックなどをバックパックに入れて、他のプロジェクトで簡単に再利用できます。
-
-バックパックはブラウザのローカルストレージを利用しているので、インターネットに接続されていない状態でもバックパックのデータを利用できます。
+Xcratch は [TurboWarp](https://turbowarp.org/) の拡張機能に対応しています。TurboWarp 向けに作られた拡張機能を Xcratch で読み込んで利用できます。
 
 ### URLからプロジェクトを開く
 
@@ -54,6 +37,23 @@ https://xcratch.github.io/editor/#<プロジェクトURL>`。
 または、クエリパラメータに `project` というラベルを追加します。
 
 https://xcratch.github.io/editor/?project=<プロジェクトURL>`。
+
+### Web Bluetooth API 対応
+
+'Web Bluetooth API' に対応したブラウザ (Chrome や Edge 、 iPad では [Scrub](https://apps.apple.com/jp/app/scrub-web-browser/id1569777095) など) で開くと、micro:bit や他の BLE 接続のデバイスを [Scratch Link](https://scratch.mit.edu/microbit) 無しで遊ぶことができます。
+
+### オフラインで利用可能
+
+Xcratch エディターは PWA (Progressive Web Apps) になっているので、一度開けばそれ以降はインターネット通信ができない状態でも利用できます。
+(拡張機能によってはインターネットの接続が必要な場合があります)
+
+PWAなので、必要に応じてローカルマシンにインストールすることもできます。
+
+### ローカル　バックパック
+
+Xcratch にはバックパック機能が搭載されており、スプライトやコスチューム、サウンド、コードブロックなどをバックパックに入れて、他のプロジェクトで簡単に再利用できます。
+
+バックパックはブラウザのローカルストレージを利用しているので、インターネットに接続されていない状態でもバックパックのデータを利用できます。
 
 ### ブロックを画像にエクスポート
 
