@@ -8,6 +8,18 @@
 
 You can install and use user-made extensions from the web. When you open a project that uses extended blocks, Xcratch automatically installs the required extensions. Extensions are organized with tags so you can filter and search for what you need.
 
+### TurboWarp extension support
+
+Xcratch supports [TurboWarp](https://turbowarp.org/) extensions. You can load and use extensions built for TurboWarp in Xcratch.
+
+### Load extensions via URL
+
+You can preload extensions before starting a project by adding the `extension` query parameter to the editor URL:
+
+https://xcratch.github.io/editor/?extension=<extension-URL>
+
+Multiple extensions can be loaded at once by repeating the parameter.
+
 ### Preloaded extensions
 
 The Xcratch editor ships with several handy extensions preloaded, so you can use them even when you are offline.
