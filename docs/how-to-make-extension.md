@@ -232,3 +232,62 @@ For extensions using camera or microphone, you need to specify the allow option 
 ```html
 <iframe src="https://xcratch.github.io/editor/player#https://<account>.github.io/<repository>/projects/example.sb3" width="600px" height="500px" allow="camera; microphone;"></iframe>
 ```
+
+## Developing with GitHub Copilot (xcratch-skills)
+
+[xcratch-skills](https://github.com/xcratch/xcratch-skills) is a set of skills for GitHub Copilot that provides AI-assisted guidance throughout the Xcratch extension development workflow. Install it in your extension repository using [APM (Agent Package Manager)](https://microsoft.github.io/apm/).
+
+### Install APM
+
+```sh
+# macOS / Linux
+curl -sSL https://aka.ms/apm-unix | sh
+
+# or via Homebrew
+brew install microsoft/apm/apm
+```
+
+### Add xcratch-skills to Your Extension Repository
+
+`xcratch-create` already places an `apm.yml` in your extension repository with `xcratch/xcratch-skills` listed as a dependency. Run the following commands in the extension repository root to fetch and deploy the skills:
+
+```sh
+apm install
+apm compile
+```
+
+If you did not use `xcratch-create`, add the dependency first:
+
+```sh
+apm install xcratch/xcratch-skills --target copilot
+apm compile
+```
+
+This installs the skills into `apm_modules/` (gitignored) and deploys them to `.agents/skills/`, where GitHub Copilot picks them up automatically.
+
+### Available Skills
+
+| Skill | When to Use |
+|-------|-------------|
+| `xcratch-extension-create` | Scaffolding a new extension, running `xcratch-create`, `setup-dev`, or the initial build |
+| `xcratch-extension-debug` | Breakpoints not hit, source maps not resolved, extension not loading from local HTTPS URL |
+| `xcratch-extension-debug-auto` | Agent autonomously navigates to `https://localhost:8601/?extension=` to verify the extension loads and check console errors |
+
+Copilot loads a skill automatically when you describe a task that matches its trigger phrases. You can also invoke a skill explicitly. Example prompts:
+
+**xcratch-extension-create**
+- "Use xcratch-extension-create to scaffold a new extension named myExtension for GitHub account myAccount."
+- "Set up the development environment for my Xcratch extension."
+- "Run setup-dev for my extension repository."
+- "Walk me through the initial build of my extension."
+
+**xcratch-extension-debug**
+- "Use xcratch-extension-debug to fix my breakpoints not being hit in the extension source."
+- "My source maps are not resolving — use xcratch-extension-debug to help."
+- "The extension is not loading from the local HTTPS URL. Help me debug it."
+- "Set up the VS Code debug configuration for my Xcratch extension."
+
+**xcratch-extension-debug-auto**
+- "Use xcratch-extension-debug-auto to verify that xcx-my-extension/dist/myExtension.mjs loads correctly in the editor."
+- "Check whether my extension blocks appear in the Scratch toolbox."
+- "Open the editor with my extension and report any console errors."

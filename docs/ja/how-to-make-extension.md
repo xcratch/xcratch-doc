@@ -232,3 +232,62 @@ https://xcratch.github.io/editor/#https://<account>.github.io/<repository>/proje
 ```html
 <iframe src="https://xcratch.github.io/editor/player#https://<account>.github.io/<repository>/projects/example.sb3" width="600px" height="500px" allow="camera; microphone;"></iframe>
 ```
+
+## GitHub Copilot で開発を支援する (xcratch-skills)
+
+[xcratch-skills](https://github.com/xcratch/xcratch-skills) は、Xcratch 拡張機能の開発ワークフロー全体を AI でサポートする GitHub Copilot 向けスキルセットです。[APM (Agent Package Manager)](https://microsoft.github.io/apm/) を使って拡張機能リポジトリにインストールします。
+
+### APM のインストール
+
+```sh
+# macOS / Linux
+curl -sSL https://aka.ms/apm-unix | sh
+
+# または Homebrew で
+brew install microsoft/apm/apm
+```
+
+### 拡張機能リポジトリへの追加
+
+`xcratch-create` が生成したリポジトリには、`xcratch/xcratch-skills` を依存関係に含む `apm.yml` がすでに配置されています。拡張機能リポジトリのルートで次のコマンドを実行してスキルを取得・デプロイします。
+
+```sh
+apm install
+apm compile
+```
+
+`xcratch-create` を使わずに作成したリポジトリの場合は、先に依存関係を追加してください。
+
+```sh
+apm install xcratch/xcratch-skills --target copilot
+apm compile
+```
+
+`apm_modules/`（gitignore 済み）にインストールされ、`.agents/skills/` にデプロイされます。GitHub Copilot は自動的にスキルを読み込みます。
+
+### 利用できるスキル
+
+| スキル | 使うタイミング |
+|--------|----------------|
+| `xcratch-extension-create` | 新しい拡張機能のスキャフォールド、`xcratch-create` の実行、`setup-dev`、初回ビルド |
+| `xcratch-extension-debug` | ブレークポイントが当たらない、ソースマップが解決されない、拡張機能がローカル HTTPS URL から読み込めない |
+| `xcratch-extension-debug-auto` | エージェントが自律的に `https://localhost:8601/?extension=` へ移動して拡張機能の読み込みを確認し、コンソールエラーをチェックする |
+
+トリガーフレーズに一致するタスクを説明すると、Copilot が自動的にスキルを読み込みます。プロンプトでスキルを明示して呼び出すこともできます。プロンプト例:
+
+**xcratch-extension-create**
+- 「xcratch-extension-create を使って、GitHub アカウント myAccount の myExtension という名前の拡張機能をスキャフォールドして」
+- 「Xcratch 拡張機能の開発環境をセットアップして」
+- 「拡張機能リポジトリで setup-dev を実行して」
+- 「拡張機能の初回ビルドの手順を教えて」
+
+**xcratch-extension-debug**
+- 「xcratch-extension-debug を使って、拡張機能のソースでブレークポイントが当たらない問題を修正して」
+- 「ソースマップが解決されていない。xcratch-extension-debug でデバッグして」
+- 「拡張機能がローカル HTTPS URL から読み込めない。原因を調べて」
+- 「VS Code のデバッグ設定を拡張機能向けに整えて」
+
+**xcratch-extension-debug-auto**
+- 「xcratch-extension-debug-auto を使って、xcx-my-extension/dist/myExtension.mjs がエディタに正しく読み込まれるか確認して」
+- 「拡張機能のブロックが Scratch のツールボックスに表示されるか確認して」
+- 「拡張機能を読み込んだ状態でエディタを開いて、コンソールエラーがないかレポートして」
