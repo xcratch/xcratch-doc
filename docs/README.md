@@ -50,7 +50,7 @@ Right-click in the blocks area to export selected blocks or all blocks as SVG or
 ### UI improvements from Scratch Foundation version
 
 - Numbers entered with double-byte characters can be used as numerical values.
-- Japanese arithmetic operators use clearer symbols (×, ÷, ＋, −).
+- Japanese arithmetic operators use clearer symbols (＋, －, ✕, ／).
 - New line (\n) and tab (\t) characters can be used for "say", "think", and "=" decisions.
 - Code clean-up improves horizontal alignment and animations.
 - Comment position bugs that caused comments to move have been fixed.
