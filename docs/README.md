@@ -47,6 +47,10 @@ Xcratch includes a backpack feature so you can store sprites, costumes, sounds, 
 
 Right-click in the blocks area to export selected blocks or all blocks as SVG or PNG images. This makes it easy to capture and share screenshots of the blocks you've created.
 
+### Edit variable and list values in an editor
+
+Right-click a variable block or an "item N of list" block and choose "Edit value in editor" to open an in-screen text editor where you can rewrite the value of the variable or list item directly. The editor supports multi-line text, which is handy for putting long text with line breaks into a variable.
+
 ### UI improvements from Scratch Foundation version
 
 - Numbers entered with double-byte characters can be used as numerical values.
