@@ -51,6 +51,14 @@ Right-click in the blocks area to export selected blocks or all blocks as SVG or
 
 Right-click a variable block or an "item N of list" block and choose "Edit value in editor" to open an in-screen text editor where you can rewrite the value of the variable or list item directly. The editor supports multi-line text, which is handy for putting long text with line breaks into a variable.
 
+### Edit a whole list in a dedicated editor
+
+Right-click a list reporter block (the rounded block that shows the entire list) and choose "Edit list..." to open a list editor modal.
+
+In the list view, you can drag rows by the handle (or use the ↑ / ↓ buttons) to reorder items, add new items with "+ Add item", and remove items with the × button. Every change is committed to the list immediately. A "Revert" button restores the list to the state it had when you opened the editor, without closing the modal, so you can recover from accidental edits at any point during the session.
+
+Clicking a row opens a single-item editor with a large textarea for long or multi-line content. A maximize toggle expands the modal to fill the viewport, which is useful for editing paragraphs. The back arrow, the × button, and clicking outside the modal commit the in-progress edit. The "Cancel" button discards it.
+
 ### UI improvements from Scratch Foundation version
 
 - Numbers entered with double-byte characters can be used as numerical values.
