@@ -43,6 +43,17 @@ The Xcratch editor is a PWA (Progressive Web Apps). Once you load it, you can ke
 
 Xcratch includes a backpack feature so you can store sprites, costumes, sounds, and code blocks for easy reuse across projects. The backpack uses your browser's local storage, so the contents remain available even when you are offline.
 
+## Save Projects in Browser
+
+Xcratch can save your projects locally in the browser, without needing an account or server. This works in the normal editor at https://xcratch.github.io/editor/.
+
+- **Autosave**: your work is saved automatically about once a minute while you edit, and the editor resumes your last project automatically the next time you open it.
+- **Project list**: choose "File > Open from project list" to see every project saved in this browser, each shown with a thumbnail, name, and last modified time. From the list you can rename, copy, delete a project, and write a comment for it.
+- **Version history**: each save adds a snapshot (with its own thumbnail) to that project's history, so you can look back at earlier versions and restore any of them. Older snapshots are gradually thinned out to save space, while recent ones are kept in detail.
+- **Multiple tabs**: if you edit the same project in two browser tabs, Xcratch detects the conflict when you save and lets you choose whether to keep your changes or discard them and load the latest saved version.
+
+Projects are stored in your browser's IndexedDB, so they are tied to this browser and device. To move a project elsewhere or keep a long-term backup, use "File > Save to your computer" to download it as an `.sb3` file.
+
 ### Export blocks as images
 
 Right-click in the blocks area to export selected blocks or all blocks as SVG or PNG images. This makes it easy to capture and share screenshots of the blocks you've created.
