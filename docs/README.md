@@ -70,6 +70,12 @@ In the list view, you can drag rows by the handle (or use the ↑ / ↓ buttons)
 
 Clicking a row opens a single-item editor with a large textarea for long or multi-line content. A maximize toggle expands the modal to fill the viewport, which is useful for editing paragraphs. The back arrow, the × button, and clicking outside the modal commit the in-progress edit. The "Cancel" button discards it.
 
+### Multi-line text input in blocks
+
+Text input fields on blocks (such as the text of "say") accept multi-line text. Pressing Enter inserts a line break instead of closing the editor, and the field turns into a multi-line text area that wraps long lines and can be resized by dragging its corner. Clicking outside the text area commits the value, and Esc restores the text to what it was before editing.
+
+When the content has a line break or is 13 characters or longer, the block shows only the beginning of the first line followed by "…"; click the field to see and edit the whole text. Number fields keep the original single-line behavior.
+
 ### UI improvements from Scratch Foundation version
 
 - Numbers entered with double-byte characters can be used as numerical values.
