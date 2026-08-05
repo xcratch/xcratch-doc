@@ -70,6 +70,12 @@ In the list view, you can drag rows by the handle (or use the ↑ / ↓ buttons)
 
 Clicking a row opens a single-item editor with a large textarea for long or multi-line content. A maximize toggle expands the modal to fill the viewport, which is useful for editing paragraphs. The back arrow, the × button, and clicking outside the modal commit the in-progress edit. The "Cancel" button discards it.
 
+### Copy from the value bubble
+
+Clicking a reporter block (a rounded block) shows its value in a bubble. The bubble includes a "Copy" button that copies the reported value to the clipboard, which is handy for pasting list contents or long text somewhere else.
+
+The text inside the bubble is also selectable by dragging, so you can copy just a part of the value.
+
 ### Multi-line text input in blocks
 
 Text input fields on blocks (such as the text of "say") accept multi-line text. Pressing Enter inserts a line break instead of closing the editor, and the field turns into a multi-line text area that wraps long lines and can be resized by dragging its corner. Clicking outside the text area commits the value, and Esc restores the text to what it was before editing.
