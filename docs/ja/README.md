@@ -21,6 +21,8 @@ https://xcratch.github.io/editor/?extension=<拡張機能URL>
 
 パラメータを繰り返すことで、複数の拡張機能を同時に読み込むこともできます。
 
+例: https://xcratch.github.io/editor/?extension=https://yokobond.github.io/xcx-costumex/dist/costumex.mjs&extension=https://yokobond.github.io/xcx-vpen/dist/xcxVPen.mjs
+
 ### TurboWarp 拡張機能のサポート
 
 Xcratch は [TurboWarp](https://turbowarp.org/) の拡張機能に対応しています。TurboWarp 向けに作られた拡張機能を Xcratch で読み込んで利用できます。
@@ -36,7 +38,7 @@ https://xcratch.github.io/editor/#<プロジェクトURL>`。
 
 または、クエリパラメータに `project` というラベルを追加します。
 
-https://xcratch.github.io/editor/?project=<プロジェクトURL>`。
+https://xcratch.github.io/editor/?project=<プロジェクトURL>`
 
 ### Web Bluetooth API 対応
 

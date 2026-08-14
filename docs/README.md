@@ -20,6 +20,8 @@ https://xcratch.github.io/editor/?extension=<extension-URL>
 
 Multiple extensions can be loaded at once by repeating the parameter.
 
+example: https://xcratch.github.io/editor/?extension=https://yokobond.github.io/xcx-costumex/dist/costumex.mjs&extension=https://yokobond.github.io/xcx-vpen/dist/xcxVPen.mjs
+
 ### TurboWarp extension support
 
 Xcratch supports [TurboWarp](https://turbowarp.org/) extensions. You can load and use extensions built for TurboWarp in Xcratch.
