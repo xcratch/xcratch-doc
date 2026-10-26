@@ -51,10 +51,13 @@ Xcratch can save your projects locally in the browser, without needing an accoun
 
 - **Autosave**: your work is saved automatically about once a minute while you edit, and the editor resumes your last project automatically the next time you open it.
 - **Project list**: choose "File > Open from project list" to see every project saved in this browser, each shown with a thumbnail, name, and last modified time. From the list you can rename, copy, delete a project, and write a comment for it.
-- **Version history**: each save adds a snapshot (with its own thumbnail) to that project's history, so you can look back at earlier versions and restore any of them. Older snapshots are gradually thinned out to save space, while recent ones are kept in detail.
+- **Search and sort**: search the list by project name or comment, and sort it by last modified, date created, name, or size. Each project shows its size and number of versions, and the toolbar shows the total storage used in this browser.
+- **Version history**: each save adds a snapshot (with its own thumbnail) to that project's history, so you can look back at earlier versions and restore any of them. Older snapshots are gradually thinned out to save space, while recent ones are kept in detail. "Clean up history" in the history view deletes every version except the latest one and the versions you locked or commented.
 - **Multiple tabs**: if you edit the same project in two browser tabs, Xcratch detects the conflict when you save and lets you choose whether to keep your changes or discard them and load the latest saved version.
 
-Projects are stored in your browser's IndexedDB, so they are tied to this browser and device. To move a project elsewhere or keep a long-term backup, use "File > Save to your computer" to download it as an `.sb3` file.
+- **Back up and restore**: "Back up" in the project list saves the projects the list shows (the search results, if you searched) to one `.zip` file, with their history, comments, thumbnails, costumes, and sounds. Choose that file with "Restore" to add its projects to this browser. Existing projects are never overwritten, and projects that are already here unchanged are skipped.
+
+Projects are stored in your browser's IndexedDB, so they are tied to this browser and device, and clearing the browser's data deletes them. Back them up from time to time, and use a backup file with "Restore" to move projects to another browser or device. To open a single project in another editor such as Scratch, use "File > Save to your computer" to download it as an `.sb3` file.
 
 ### Export blocks as images
 
